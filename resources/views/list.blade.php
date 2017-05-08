@@ -253,20 +253,42 @@
         
         $scope.saveAdd = function()
         {
-            $.ajax({
-                url: 'list/savenewproducts',
-                type: "POST",
-                data: {'_token' : $('input[name=_token]').val(), 'name':$("#product_name").val(), 'details':$("#product_detail").val()
-                },
-                success: function (data) {
-                    
-                    $('#create-user').modal('hide');
-                    $scope.clearModalFields();
-                    $scope.data = data;
-                    $scope.$apply($scope.data);
-                    
-                }
-            });
+            
+            if($scope.is_edit)/*code for updating existing product*/
+            {
+                $.ajax({
+                    url: 'list/savenewproducts',
+                    type: "POST",
+                    data: {'_token' : $('input[name=_token]').val(), 'name':$("#product_name").val(), 'details':$("#product_detail").val(),'edit_id':$scope.edit_id
+                    },
+                    success: function (data) {
+                        
+                        $('#create-user').modal('hide');
+                        $scope.clearModalFields();
+                        $scope.data = data;
+                        $scope.$apply($scope.data);
+                        
+                    }
+                });
+            }
+            else /*code for saving new product*/
+            {
+                $scope.edit_id = '';
+                $.ajax({
+                    url: 'list/savenewproducts',
+                    type: "POST",
+                    data: {'_token' : $('input[name=_token]').val(), 'name':$("#product_name").val(), 'details':$("#product_detail").val(), 'edit_id':$scope.edit_id
+                    },
+                    success: function (data) {
+                        
+                        $('#create-user').modal('hide');
+                        $scope.clearModalFields();
+                        $scope.data = data;
+                        $scope.$apply($scope.data);
+                        
+                    }
+                });
+            }
         }
 
         $scope.edit = function(edit_id)
@@ -275,11 +297,15 @@
 
             $scope.name    = $scope.editdata[edit_id].name;
             $scope.details = $scope.editdata[edit_id].detail;
+            $scope.is_edit = 1;
+            $scope.edit_id = edit_id;
         }
 
         $scope.createUser = function()
         {
             $scope.clearModalFields();
+            $scope.is_edit = 0;
+            $scope.edit_id = '';
         }
 
         $scope.remove = function(remove_id,is_remove)
