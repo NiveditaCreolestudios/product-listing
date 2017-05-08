@@ -25,7 +25,9 @@ class ListController extends Controller
     	
     	if($request->ajax())
     	{
-	        $params          = $request->all();
+            
+            $params          = $request->all();
+            
 	        $result          = productDetails::saveproducts($params);
 
 	        $listing = productDetails::getlist();
