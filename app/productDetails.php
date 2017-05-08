@@ -46,14 +46,28 @@ class productDetails extends Model
 
         if(isset($params) && count($params)>0){
 
-            $insert_array = array(
-                'name'       => $params['name'], 
-                'detail'     => $params['details'],
-                'status'     => '1',
-                'created_at' => date('Y-m-d H:i:s')
-            );
-            
-            $result_id = DB::table('details')->insert($insert_array);
+            if(isset($params['edit_id']) && $params['edit_id'] != '')
+            {
+                $update_array = array(
+                    'name'       => $params['name'], 
+                    'detail'     => $params['details'],
+                    'status'     => '1',
+                    'created_at' => date('Y-m-d H:i:s')
+                );
+                
+                $result_id = DB::table('details')->where('id', $params['edit_id'])->update($update_array);
+            }
+            else
+            {
+                $insert_array = array(
+                    'name'       => $params['name'], 
+                    'detail'     => $params['details'],
+                    'status'     => '1',
+                    'created_at' => date('Y-m-d H:i:s')
+                );
+                
+                $result_id = DB::table('details')->insert($insert_array);
+            }
 
             if ($result_id) {
             	$retundata['success'] = true;
