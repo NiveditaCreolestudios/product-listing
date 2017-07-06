@@ -23,3 +23,4 @@ also used angular
 
 =>to create model
 	php artisan make:model Article
+=>templates folder is made by me its not the laravel's default folder.
