@@ -13,6 +13,7 @@ class productDetails extends Model
         			->get();
 
         $returndata   = json_decode(json_encode($products));
+
         /*$result['products'] = DB::table('tbl_category')
         			->where('iParentID', '0')
         			->get();
@@ -34,7 +35,7 @@ class productDetails extends Model
         }*/
         
         //$returndata = json_decode(json_encode($result));
-        if ($returndata) {
+        if (count($returndata) > 0) {
             return $returndata;
         } else {
             return false;
