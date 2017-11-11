@@ -11,13 +11,18 @@ class ListController extends Controller
     public function index()
     {
     	$data['listing'] = productDetails::getlist();
-        $listing_arr = json_decode(json_encode($data['listing']),true);
+        $data['edit_listing'] = '';
         
-        foreach ($listing_arr as $key => $value) {
-            $data['edit_listing'][$value['id']] = $value;    
+        if($data['listing'] != '')
+        {
+            $listing_arr = json_decode(json_encode($data['listing']),true);
+            foreach ($listing_arr as $key => $value) {
+                $data['edit_listing'][$value['id']] = $value;    
+            }
+            return view('list',$data);
         }
-        
-    	return view('list',$data);
+        else
+            return view('list',$data);
     }
 
     public function postSavenewproducts(Request $request){
